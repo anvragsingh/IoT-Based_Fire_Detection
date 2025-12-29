@@ -1,0 +1,21 @@
+# Arduino temporary files
+*.o
+*.d
+*.a
+*.s
+*.so
+*.elf
+*.eep
+*.hex
+*.bin
+*.lss
+*.sym
+*.map
+
+# Arduino build folder
+build/
+*.build/
+
+# Other common files to ignore
+.DS_Store
+Thumbs.db
