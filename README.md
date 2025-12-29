@@ -1,66 +1,73 @@
-# On the Road to Autonomy: Smart Obstacle-Avoiding & Firefighting Car
+# Smart Obstacle-Avoiding & Firefighting Robot
 
-## Problem Statement
+## Overview
+This project integrates autonomous navigation with safety features to create a smart robotic car. It is capable of moving through an environment while avoiding obstacles and automatically detecting and extinguishing fires using a water pump system.
 
-Autonomous navigation and fire safety are critical areas in modern robotics and smart systems. Autonomous vehicles can navigate complex environments without human intervention, reducing accidents and improving efficiency. Simultaneously, automated firefighting systems can detect and respond to fires faster than humanly possible, minimizing damage and saving lives. This project combines both concepts into a single, integrated robotic car.
+## Features
+* **Autonomous Navigation:** Moves forward automatically and detects obstacles using an ultrasonic sensor.
+* **Smart Obstacle Avoidance:** Stops upon detecting an object, scans left and right, and turns toward the clearer path.
+* **Fire Detection:** Continuously monitors air quality for smoke using an MQ-2 sensor.
+* **Automatic Extinguishing:** Automatically activates a water pump when smoke levels exceed a safety threshold.
 
 ## Hardware Used
+* **Microcontroller:** Arduino Uno
+* **Sensors:**
+    * Ultrasonic Sensor (HC-SR04) for distance measurement
+    * MQ-2 Smoke Sensor for fire detection
+* **Actuators:**
+    * Servo Motor (SG90) for scanning
+    * 2x DC Motors for movement
+    * Submersible Water Pump
+* **Drivers & Power:**
+    * L293D Motor Driver
+    * Relay Module (to switch the pump)
+    * Power Supply (Battery)
 
-*   **Arduino Uno:** The microcontroller brain of the project.
-*   **Ultrasonic Sensor (HC-SR04):** For detecting obstacles and measuring distance.
-*   **Servo Motor (SG90):** To rotate the ultrasonic sensor for wider area scanning.
-*   **MQ-2 Smoke Sensor:** To detect smoke and potential fire hazards.
-*   **L293D Motor Driver:** To control the DC motors for car movement.
-*   **Relay Module:** To switch the high-voltage water pump on/off.
-*   **Submersible Water Pump:** The actuator for the firefighting system.
-*   **Power Supply:** To provide power to the entire system.
+## Pin Configuration
+Use this mapping to connect your components to the Arduino Uno:
 
-## Circuit Diagram
+* **Left Motor:** Pins 2 & 3 (Enable Pin: 6)
+* **Right Motor:** Pins 4 & 5 (Enable Pin: 7)
+* **Ultrasonic Sensor (Trig):** Pin 9
+* **Ultrasonic Sensor (Echo):** Pin 10
+* **Servo Motor:** Pin 8
+* **Relay Module (Water Pump):** Pin 11
+* **Smoke Sensor:** Pin A0
 
-Here is the circuit diagram for the project setup:
-
-![Circuit Diagram](images/circuit.jpg)
-
-## Software/Compilation
-
-*   **Language:** The code is written in Arduino C++.
-*   **IDE:** Compiled and uploaded using the Arduino IDE.
+## Software & Dependencies
+* **Language:** Arduino C++
+* **IDE:** Arduino IDE
+* **Libraries:** `Servo.h` (Built-in Arduino library)
 
 ## Setup Instructions
+1.  **Assembly:** Connect all hardware components according to the **Pin Configuration** above and the circuit diagram.
+2.  **Software:** Open the `src/main.ino` file in the Arduino IDE.
+3.  **Library Check:** Ensure the standard `Servo` library is available.
+4.  **Upload:** Connect the Arduino Uno to your PC and upload the code.
+5.  **Power Up:** Connect the battery power supply. The car should immediately start moving and sensing.
 
-1.  **Wiring:** Connect all the components according to the circuit diagram provided above.
-2.  **IDE Setup:** Ensure you have the Arduino IDE installed.
-3.  **Library:** Add the `Servo.h` library if it's not already included in your IDE.
-4.  **Upload:** Connect the Arduino Uno to your computer via USB, select the correct board and port in the IDE, and upload the code from `src/main.ino`.
+## Working Principle
 
-## Working
+### 1. Obstacle Avoidance
+The car continuously measures distance. If an object is detected within **20 cm**:
+1.  The car stops.
+2.  The servo looks left (0°) and right (180°) to measure distances.
+3.  The car turns toward the direction with more space and resumes moving forward.
 
-### Obstacle Avoidance System
+### 2. Firefighting
+The MQ-2 sensor reads analog smoke values. If the value exceeds the threshold of **300**:
+1.  The relay activates (High signal).
+2.  The water pump turns on to extinguish the fire.
+3.  When smoke levels drop below the threshold, the pump turns off automatically.
 
-The car uses an ultrasonic sensor mounted on a servo motor to navigate its environment. 
-1.  The car moves forward by default.
-2.  The ultrasonic sensor continuously measures the distance to objects in front.
-3.  If an obstacle is detected within a predefined threshold, the car stops.
-4.  The servo motor scans the left and right sides to find the clearest path.
-5.  The car then turns towards the direction with more open space and continues moving.
-
-### Firefighting System
-
-The MQ-2 smoke sensor continuously monitors the air for smoke particles.
-1.  If the smoke level exceeds a certain threshold, it signals a potential fire.
-2.  The Arduino activates the relay module, which turns on the submersible water pump.
-3.  The pump dispenses water to extinguish the fire.
-4.  Once the smoke level drops, the pump is turned off.
+## Circuit Diagram
+![Circuit Diagram](images/circuit.jpg)
 
 ## Results
+* **Prototype Photos:** View the project photos in the `/images` directory.
+* **Demo Videos:** Watch the car in action in the `/media` directory.
 
-*   **Prototype Photos:** View the project photos in the `/images` directory.
-*   **Demo Videos:** Watch the car in action in the `/media` directory.
-
-## Future Work
-
-*   **IoT Integration:** Connect the car to the internet to send real-time alerts and be controlled remotely.
-*   **Sensor Fusion:** Combine data from multiple sensors (e.g., infrared, cameras) for more robust navigation.
-*   **AI-Powered Navigation:** Implement a machine learning model for smarter pathfinding and object recognition.
-
-
+## Future Scope
+* **IoT Integration:** Add a Wi-Fi module (ESP8266/ESP32) for remote monitoring and alerts.
+* **Sensor Fusion:** Add infrared sensors for better edge detection.
+* **App Control:** Enable manual override via a smartphone app.
