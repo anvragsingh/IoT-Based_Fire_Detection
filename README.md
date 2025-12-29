@@ -63,6 +63,4 @@ The MQ-2 smoke sensor continuously monitors the air for smoke particles.
 *   **Sensor Fusion:** Combine data from multiple sensors (e.g., infrared, cameras) for more robust navigation.
 *   **AI-Powered Navigation:** Implement a machine learning model for smarter pathfinding and object recognition.
 
-## References
 
-*   [Cite relevant research papers or articles here.]
